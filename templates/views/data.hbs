@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Data Files</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div class="main-content">
+        {{>header}}
+        <p>
+            Here you will find links to the data files storing player's information for each of the games on the site.
+        </p>
+
+        <button id="blekData" onclick="retrieveCSV('blek')">Blek Data</button>
+        <button id="unpossibleData" onclick="retrieveCSV('unpossible')">Unpossible Data</button>
+        <button id="edgeData" onclick="retrieveCSV('edge')">Edge Data</button>
+        
+    </div>
+    
+    {{>footer}}
+    
+    <script src="/js/data.js"></script>
+</body>
+
+</html>
