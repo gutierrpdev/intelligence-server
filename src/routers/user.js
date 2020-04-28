@@ -7,15 +7,20 @@ const router = express.Router()
 // sign up endpoint
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
-
     try{
         // try to add new user to database
         await user.save()
         // if user is created correctly, generate a JWT token to 
         // prevent them from having to login again after registration
-        const token = await user.generateAuthToken()
-        // return an object containing both user's data and authentication token
-        res.status(201).send({user, token})
+        const { token, expiration } = await user.generateAuthToken()
+
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + expiration),
+            secure: true,
+            httpOnly: true
+        })
+
+        res.status(201).send(user)
     } catch(e) {
         res.status(400).send(e)
     }
@@ -25,8 +30,14 @@ router.post('/users', async (req, res) => {
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.userId, req.body.password)
-        const token = await user.generateAuthToken()
-        res.send({user, token})
+        const { token, expiration } = await user.generateAuthToken()
+
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + expiration),
+            secure: true,
+            httpOnly: true
+        })
+        res.send(user)
     } catch (e) {
         res.status(400).send()
     }
@@ -63,7 +74,7 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
-router.get('/users/:id', async (req, res) => {
+router.get('/users/:id', auth, async (req, res) => {
     const _id = req.params.id
 
     try {

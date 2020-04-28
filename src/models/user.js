@@ -6,6 +6,18 @@ const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+    blekCompleted: {
+        type: Boolean,
+        default: false
+    },
+    edgeCompleted: {
+        type: Boolean,
+        default: false
+    },
+    unpossibleCompleted: {
+        type: Boolean,
+        default: false
+    },
     userId: {
         type: String,
         unique: true,
@@ -58,17 +70,21 @@ userSchema.methods.toJSON = function() {
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject._id
 
     return userObject
 }
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this
-    const token = jwt.sign({'_id' : user._id.toString()}, process.env.JWT_SECRET)
+    const expiration = process.env.DB_ENV === 'testing' ? 100 : 604800000
+    const token = jwt.sign({'userId' : user.userId}, process.env.JWT_SECRET, {
+        expiresIn: process.env.DB_ENV === 'testing' ? '1d' : '7d',
+    })
 
     user.tokens = user.tokens.concat({ token })
     await user.save()
-    return token
+    return { token, expiration }
 }
 
 userSchema.statics.findByCredentials = async (userId, password) => {
