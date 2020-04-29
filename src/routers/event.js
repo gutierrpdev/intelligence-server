@@ -5,8 +5,9 @@ const blekProcess = require('../gameEventHandlers/blek')
 
 const router = express.Router()
 
-router.post('/events', async (req, res) => {
-    const event = new Event(req.body)
+router.post('/events', auth, async (req, res) => {
+    const user = req.user
+    const event = new Event({...req.body, 'userId': user.userId})
     console.log(event)
     try {
         await event.save()
