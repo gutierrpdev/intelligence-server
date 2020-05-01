@@ -32,20 +32,25 @@ const userSchema = new Schema({
     age: {
         type: Number,
         default: 0,
+        required: true,
         validate(value){
-            if(value < 0){
+            if(!Number.isInteger(value)){
+                throw new Error('Age must be an integer')
+            }
+            else if(value < 0){
                 throw new Error('Age must be a non-negative integer value')
+            }
+            else if(value > 120){
+                throw new Error('Age must be lower than 120')
             }
         }
     },
-    email: {
+    gender: {
         type: String,
-        unique: true,
-        trim: true,
-        lowercase: true,
-        validate(value) {
-            if(!validator.isEmail(value)){
-                throw new Error('Invalid email address supplied')
+        required: true,
+        validate(value){
+            if(value.toLowerCase() !== 'male' && value.toLowerCase() !== 'female'){
+                throw new Error('Gender must be either Male or Female')
             }
         }
     },
