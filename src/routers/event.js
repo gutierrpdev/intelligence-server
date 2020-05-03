@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post('/events', auth, async (req, res) => {
     const user = req.user
+    console.log("BODY: " + req.body)
     const event = new Event({...req.body, 'userId': user.userId})
     console.log(event)
     try {
