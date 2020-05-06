@@ -22,9 +22,20 @@ const port = process.env.PORT
 app.use(express.json())
 app.use(cookieParser())
 
+const whitelist = [
+  'https://intelligence-assessment-games.herokuapp.com',
+  'http://intelligence-assessment-games.herokuapp.com',
+  'intelligence-assessment-games.herokuapp.com'
+]
 app.use(cors({
     credentials: true,
-    origin: 'https://intelligence-assessment-games.herokuapp.com'
+    origin: function(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    } 
   }));
 
 // register routers
