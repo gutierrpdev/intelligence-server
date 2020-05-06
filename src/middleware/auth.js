@@ -4,8 +4,11 @@ const User = require('../models/user')
 const auth = async (req, res, next) => {
     try {
         const token = req.cookies.token || ''
+        console.log(token)
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await User.findOne({ userId : decoded.userId, 'tokens.token' : token })
+        console.log(decoded)
+        const user = await User.findOne({ userId : decoded.userId})
+        console.log(user)
         
         if(!user){
             throw new Error()
