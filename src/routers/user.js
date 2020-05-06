@@ -52,6 +52,7 @@ router.post('/users/logout', auth, async (req, res) => {
             return token.token !== req.token
         }) 
         await req.user.save()
+        res.clearCookie('token')
         res.send()
     } catch (e) {
         res.status(500).send()
@@ -64,6 +65,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         // remove all access tokens
         req.user.tokens = []
         await req.user.save()
+        res.clearCookie('token')
         res.send()
     } catch (e) {
         res.status(500).send()
