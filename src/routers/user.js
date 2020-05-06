@@ -30,6 +30,7 @@ router.post('/users', async (req, res) => {
 
 // login endpoint
 router.post('/users/login', async (req, res) => {
+    console.log(req.body.userId + ' ' + req.body.password)
     try {
         const user = await User.findByCredentials(req.body.userId, req.body.password)
         console.log(user)
