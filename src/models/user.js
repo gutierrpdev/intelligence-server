@@ -18,6 +18,18 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    knowsBlek: {
+        type: Boolean
+    },
+    knowsEdge: {
+        type: Boolean
+    },
+    knowsUnpossible: {
+        type: Boolean
+    },
+    questionsCompleted: {
+        type: Boolean
+    },
     userId: {
         type: String,
         unique: true,
