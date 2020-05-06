@@ -16,7 +16,6 @@ router.post('/users', async (req, res) => {
 
         res.cookie('token', token, {
             expires: new Date(Date.now() + expiration),
-            secure: true,
             httpOnly: true
         })
 
@@ -34,7 +33,6 @@ router.post('/users/login', async (req, res) => {
 
         res.cookie('token', token, {
             expires: new Date(Date.now() + expiration),
-            secure: true,
             httpOnly: true
         })
         res.send(user)
