@@ -7,7 +7,6 @@ const router = express.Router()
 // sign up endpoint
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
-    console.log(user)
     try{
         // try to add new user to database
         await user.save()
@@ -23,17 +22,14 @@ router.post('/users', async (req, res) => {
 
         res.status(201).send(user)
     } catch(e) {
-        console.log("error: " + e)
         res.status(400).send(e)
     }
 })
 
 // login endpoint
 router.post('/users/login', async (req, res) => {
-    console.log(req.body.userId + ' ' + req.body.password)
     try {
         const user = await User.findByCredentials(req.body.userId, req.body.password)
-        console.log(user)
         const { token, expiration } = await user.generateAuthToken()
 
         res.cookie('token', token, {
@@ -43,7 +39,6 @@ router.post('/users/login', async (req, res) => {
         })
         res.send(user)
     } catch (e) {
-        console.log("error: " + e)
         res.status(400).send()
     }
 })
