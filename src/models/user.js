@@ -19,13 +19,19 @@ const userSchema = new Schema({
         default: false
     },
     knowsBlek: {
-        type: Boolean
+        type: Number,
+        required: true,
+        default: 0
     },
     knowsEdge: {
-        type: Boolean
+        type: Number,
+        required: true,
+        default: 0
     },
     knowsUnpossible: {
-        type: Boolean
+        type: Number,
+        required: true,
+        default: 0
     },
     questionsCompleted: {
         type: Boolean
