@@ -21,7 +21,8 @@ app.use(cookieParser())
 const whitelist = [
   'https://intelligence-assessment-games.herokuapp.com',
   'http://intelligence-assessment-games.herokuapp.com',
-  'intelligence-assessment-games.herokuapp.com'
+  'intelligence-assessment-games.herokuapp.com',
+  'http://localhost:3001'
 ]
 app.use(cors({
     credentials: true,
