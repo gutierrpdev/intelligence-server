@@ -1,7 +1,7 @@
 const express = require('express')
 const Event = require('../models/event')
 const auth = require('../middleware/auth')
-const blekProcess = require('../gameEventHandlers/blek')
+const cors = require('cors')
 
 const router = express.Router()
 
@@ -17,5 +17,21 @@ router.post('/events', auth, async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+const whitelist = [
+    'https://intelligence-assessment-games.herokuapp.com',
+    'http://intelligence-assessment-games.herokuapp.com',
+    'intelligence-assessment-games.herokuapp.com'
+  ]
+router.use(cors({
+    credentials: true,
+    origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+    } else {
+        callback(new Error('Not allowed by CORS'))
+    }
+    } 
+}));
 
 module.exports = router
