@@ -1,10 +1,10 @@
 const express = require('express')
 const Event = require('../models/event')
-const auth = require('../middleware/auth')
 const blekLevelData = require('../dataProcessing/blekLevelData')
 const edgeLevelData = require('../dataProcessing/edgeLevelData')
 const unpossibleTimeData = require('../dataProcessing/unpossibleTimeData')
 const generateCsv = require('../dataProcessing/csvGenerator')
+const cors = require('cors');
 
 const router = express.Router()
 
@@ -40,5 +40,12 @@ router.get('/files/edge', async (req, res) => {
     const result = await Promise.all(actions)
     generateCsv(result, "EdgeData", res).send()
 })
+
+router.use(cors({
+    allowedOrigins: [
+        '*'
+    ]
+}));
+
 
 module.exports = router

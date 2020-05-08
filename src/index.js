@@ -1,6 +1,4 @@
-const path = require('path')
 const express = require('express')
-const hbs = require('hbs')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
