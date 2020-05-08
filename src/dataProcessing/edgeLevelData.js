@@ -31,6 +31,7 @@ const edgeLevelData = async (userId) => {
         switch(events[i].name){
             case 'TUTORIAL_START':
                 // Set tag accordingly.
+                result = {'_userId' : userId}
                 tag = 'Edge_Tut_'
                 break;
             case 'TUTORIAL_END':
@@ -42,7 +43,7 @@ const edgeLevelData = async (userId) => {
                 break
             case 'EXPERIMENT_END':
                 result['Score'] = events[i].parameters[0].value
-                break
+                return result
             case 'PLAYER_DEATH':
                 // add a death to death field
                 if((tag + 'Deaths_' + counter) in result){
@@ -69,6 +70,7 @@ const edgeLevelData = async (userId) => {
                 // reached level end for current level.
                 if(parseInt(events[i].parameters[0].value) == counter){
                     result[tag + 'Time_' + counter] = events[i].timestamp - levelStart
+                    result[tag + 'NumMoves_' + counter] = events[i].parameters[1].value
                     levelStart = null
                 }
                 break

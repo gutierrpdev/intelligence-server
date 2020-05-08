@@ -30,6 +30,7 @@ const blekLevelData = async (userId) => {
             case 'TUTORIAL_START':
                 // Set tag accordingly.
                 tag = 'Blek_Tut_'
+                result = {'_userId' : userId}
                 break
             case 'TUTORIAL_END':
                 // do nothing.
@@ -40,6 +41,7 @@ const blekLevelData = async (userId) => {
                 break
             case 'EXPERIMENT_END':
                 // do nothing.
+                return result
                 break
             case 'LEVEL_START':
                 // update counter to reflect current level.
